@@ -1,30 +1,37 @@
 "use client";
-type Variant = "LOGIN" | "REGISTER";
-import axios from "axios";
+
 import AuthSocialButton from "../AuthSocialButton";
-import { BsGithub } from "react-icons/bs";
-import { BsGoogle } from "react-icons/bs";
+import Button from "@/app/components/Button";
+import Input from "@/app/components/inputs/Input";
+import axios from "axios";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useState, useCallback } from "react";
 import { FieldValues, useForm, SubmitHandler } from "react-hook-form";
-import Input from "@/app/components/inputs/Input";
-import Button from "@/app/components/Button";
+import { toast } from "react-hot-toast";
+import { BsGithub } from "react-icons/bs";
+import { BsGoogle } from "react-icons/bs";
+
+type Variant = "LOGIN" | "REGISTER";
+
 const AuthForm = () => {
+  const session = useSession();
+  const router = useRouter();
   const [variant, setVariant] = useState<Variant>("LOGIN");
   const [isLoading, setIsLoading] = useState(false);
 
-  const toogleVariant = useCallback(() => {
-    if (variant === "LOGIN") {
-      setVariant("REGISTER");
-      console.log(variant);
-    } else {
-      setVariant("LOGIN");
+  useEffect(() => {
+    if (session?.status === "authenticated") {
+      router.push("/users");
     }
-  }, [variant]);
+  }, [session?.status, router]);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<FieldValues>({
     defaultValues: {
       name: "",
@@ -32,19 +39,55 @@ const AuthForm = () => {
       password: "",
     },
   });
+
+  const toogleVariant = useCallback(() => {
+    reset();
+    if (variant === "LOGIN") {
+      setVariant("REGISTER");
+    } else {
+      setVariant("LOGIN");
+    }
+  }, [variant]);
+
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
 
     if (variant === "REGISTER") {
-      axios.post("/api/register", data);
+      axios
+        .post("/api/register", data)
+        .then(() => signIn("credentials", data))
+        .catch(() => toast.error("Ошибка! Что-то пошло не так :("))
+        .finally(() => setIsLoading(false));
     }
     if (variant === "LOGIN") {
-      // nextauth signin
+      signIn("credentials", {
+        ...data,
+        redirect: false,
+      })
+        .then((callback) => {
+          if (callback?.error) {
+            toast.error("Ошибка! Данные не верны.");
+          }
+          if (callback?.ok && !callback?.error) {
+            toast.success("Вход выполнен!");
+            router.push("/users");
+          }
+        })
+        .finally(() => setIsLoading(false));
     }
   };
   const socialAction = (action: string) => {
     setIsLoading(true);
-    // nextauth social sign in
+    signIn(action, { redirect: false })
+      .then((callback) => {
+        if (callback?.error) {
+          toast.error("Ошибка! Данные не верны.");
+        }
+        if (callback?.ok && !callback?.error) {
+          toast.success("Вход выполнен!");
+        }
+      })
+      .finally(() => setIsLoading(false));
   };
 
   return (
@@ -53,6 +96,7 @@ const AuthForm = () => {
         <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
           {variant === "REGISTER" && <Input id="name" label="Name" register={register} disabled={isLoading} errors={errors} />}
           <Input id="email" label="Email" type="email" register={register} errors={errors} />
+
           <Input id="password" label="Пароль" type="password" register={register} errors={errors} />
           <div>
             <Button disabled={isLoading} fullWidth type="submit">
