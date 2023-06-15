@@ -1,5 +1,0 @@
-module.exports = {
-  "importOrder": [ "<THIRD_PARTY_MODULES>", "^@core/(.*)$", "^@server/(.*)$","^@next", "^[./]"],
-  "importOrderSeparation": true,
-  "importOrderSortSpecifiers": true
-}
