@@ -6,6 +6,7 @@ import { FullConversationType } from "@/app/types";
 import { Conversation } from "@prisma/client";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useState } from "react";
 import { MdOutlineGroupAdd } from "react-icons/md";
 
@@ -16,7 +17,13 @@ interface ConversationListProps {
 const ConversationList: React.FC<ConversationListProps> = ({ initialItems }) => {
   const [items, setItems] = useState(initialItems);
   const router = useRouter();
-  const { conversationId, isOpen } = useConversation();
+  let { conversationId, isOpen } = useConversation();
+  const params = useParams();
+
+  if (params.conversationsId) {
+    isOpen = true;
+  }
+
   return (
     <aside
       className={clsx(

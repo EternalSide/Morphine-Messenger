@@ -4,7 +4,7 @@ import "./globals.css";
 
 export const metadata = {
   title: "Next Мессенджер",
-  description: "Мессенджер NextChat",
+  description: "Мессенджер Next",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
