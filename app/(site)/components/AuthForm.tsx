@@ -89,21 +89,13 @@ const AuthForm = () => {
       })
       .finally(() => setIsLoading(false));
   };
-  if (session.status === "loading") {
-    return <div className=" bg-white absolute h-full w-full top-0 left-0">Loading...</div>;
-  }
+
   return (
     <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div className="bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
         <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
           {variant === "REGISTER" && (
-            <Input
-              id="name"
-              label="Name"
-              register={register}
-              disabled={isLoading}
-              errors={errors}
-            />
+            <Input id="name" label="Name" register={register} disabled={isLoading} errors={errors} />
           )}
           <Input id="email" label="Email" type="email" register={register} errors={errors} />
 

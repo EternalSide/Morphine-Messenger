@@ -3,8 +3,8 @@ import ToasterContext from "./context/ToasterContext";
 import "./globals.css";
 
 export const metadata = {
-  title: "Next Мессенджер",
-  description: "Мессенджер Next",
+  title: "Morphine Мессенджер",
+  description: "Мессенджер Morphine",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
