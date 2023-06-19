@@ -3,6 +3,7 @@
 // import ConfirmModal from "./ConfirmModal";
 import ConfirmModal from "./ConfirmModal";
 import Avatar from "@/app/components/Avatar";
+import AvatarGroup from "@/app/components/AvatarGroup";
 import Modal from "@/app/components/Modal";
 import useOtherUser from "@/app/hooks/useOther";
 // import AvatarGroup from "@/app/components/AvatarGroup";
@@ -89,18 +90,9 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({ isOpen, onClose, data }) 
                       <div className="relative mt-6 flex-1 px-4 sm:px-6">
                         <div className="flex flex-col items-center">
                           <div className="">
-                            <Avatar user={otherUser} />
+                            {data.isGroup ? <AvatarGroup users={data.users} /> : <Avatar user={otherUser} />}
                           </div>
-                          {otherUser.email === "reidsgadv@gmail.com" && (
-                            <>
-                              <hr />
-                              <div>
-                                <dd className=" text-sm font-bold text-red-500 sm:col-span-2 ">
-                                  Главный Администратор
-                                </dd>
-                              </div>
-                            </>
-                          )}
+
                           <div>{title}</div>
                           <div className="text-sm text-gray-500">{statusText}</div>
 
@@ -120,6 +112,20 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({ isOpen, onClose, data }) 
                           </div>
                           <div className="w-full pb-5 pt-5 sm:px-0 sm:pt-0">
                             <dl className="space-y-8 px-4 sm:space-y-6 sm:px-6">
+                              {data.isGroup && (
+                                <div>
+                                  <dt
+                                    className="text-sm font-medium text-gray-500 sm:w-40
+                                  sm:flex-shrink-0
+                                  "
+                                  >
+                                    Участники:
+                                  </dt>
+                                  <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
+                                    {data.users.map((user) => user.name).join(", ")}
+                                  </dd>
+                                </div>
+                              )}
                               {!data.isGroup && (
                                 <div>
                                   <dt className="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0">
