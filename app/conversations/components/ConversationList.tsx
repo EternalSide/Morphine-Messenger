@@ -26,7 +26,7 @@ const ConversationList: React.FC<ConversationListProps> = ({ initialItems, users
   let { conversationId, isOpen } = useConversation();
   const params = useParams();
   const session = useSession();
-  if (params.conversationsId) {
+  if (params?.conversationsId) {
     isOpen = true;
   }
 
