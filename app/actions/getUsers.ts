@@ -3,8 +3,7 @@ import prisma from "@/app/libs/prismadb";
 
 const getUsers = async () => {
   const session = await getSession();
-
-  if (!session?.user?.email) return [];
+  if (!session?.currentUser?.email) return [];
   try {
     const users = await prisma.user.findMany({
       orderBy: {
@@ -12,7 +11,7 @@ const getUsers = async () => {
       },
       where: {
         NOT: {
-          email: session.user.email,
+          email: session.currentUser.email,
         },
       },
     });

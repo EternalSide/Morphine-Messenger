@@ -6,6 +6,7 @@ import { pusherClient } from "@/app/libs/pusher";
 import { FullMessageType } from "@/app/types";
 import axios from "axios";
 import { find } from "lodash";
+import { useRouter } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 
 interface BodyProps {
@@ -15,8 +16,13 @@ const Body: React.FC<BodyProps> = ({ initialMessages }) => {
   const [messages, setMessages] = useState(initialMessages);
   const bottomRef = useRef<HTMLDivElement>(null);
   const { conversationId } = useConversation();
+  const router = useRouter();
 
-  // pusher
+  // Для обновления диалогов
+  useEffect(() => {
+    router.refresh();
+  }, [router]);
+  // Pusher
   useEffect(() => {
     pusherClient.subscribe(conversationId);
     bottomRef?.current?.scrollIntoView();

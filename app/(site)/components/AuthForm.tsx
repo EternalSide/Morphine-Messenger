@@ -16,16 +16,9 @@ import { BsGoogle } from "react-icons/bs";
 type Variant = "LOGIN" | "REGISTER";
 
 const AuthForm = () => {
-  const session = useSession();
   const router = useRouter();
   const [variant, setVariant] = useState<Variant>("LOGIN");
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    if (session?.status === "authenticated") {
-      router.push("/users");
-    }
-  }, [session?.status, router]);
 
   const {
     register,
@@ -58,6 +51,7 @@ const AuthForm = () => {
         .then(() => signIn("credentials", data))
         .catch(() => toast.error("Ошибка! Что-то пошло не так :("))
         .finally(() => setIsLoading(false));
+      router.push("/users");
     }
     if (variant === "LOGIN") {
       signIn("credentials", {
@@ -66,7 +60,7 @@ const AuthForm = () => {
       })
         .then((callback) => {
           if (callback?.error) {
-            toast.error("Ошибка! Данные не верны.");
+            toast.error("Данные не совпадают.");
           }
           if (callback?.ok && !callback?.error) {
             toast.success("Вход выполнен!");
@@ -91,15 +85,31 @@ const AuthForm = () => {
   };
 
   return (
-    <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-      <div className="bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
-        <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+    <div className="sm:mx-auto pl-12 pr-12   sm:w-full sm:p-0 sm:max-w-md ">
+      <div className="bg-white px-4 py-8 shadow rounded-lg sm:rounded-lg sm:px-10">
+        <form className="" onSubmit={handleSubmit(onSubmit)}>
           {variant === "REGISTER" && (
-            <Input id="name" label="Name" register={register} disabled={isLoading} errors={errors} />
+            <div className="h-[100px]">
+              <Input id="name" label="Имя Пользователя" register={register} errors={errors} required disabled={isLoading} />
+              {errors.name && <p className="text-red-500">Имя пользователя обязательно к заполнению.</p>}
+            </div>
           )}
-          <Input id="email" label="Email" type="email" register={register} errors={errors} />
-
-          <Input id="password" label="Пароль" type="password" register={register} errors={errors} />
+          <div className="h-[100px]">
+            <Input id="email" label="Email" type="email" register={register} errors={errors} required disabled={isLoading} />
+            {errors.email && <p className="text-red-500">Email обязателен к заполнению.</p>}
+          </div>
+          <div className="h-[100px]">
+            <Input
+              id="password"
+              label="Пароль"
+              type="password"
+              register={register}
+              errors={errors}
+              required
+              disabled={isLoading}
+            />
+            {errors.password && <p className="text-red-500">Пароль обязателен к заполнению.</p>}
+          </div>
           <div>
             <Button disabled={isLoading} fullWidth type="submit">
               {variant === "REGISTER" ? "Регистрация" : "Войти"}
@@ -115,13 +125,18 @@ const AuthForm = () => {
               <span className="bg-white px-2 text-gray-500">Или войдите с помощью</span>
             </div>
           </div>
-          <div className="mt-6 flex gap-2">
+          <div className="text-blue-500 text-center mt-3">
+            <p>Тестовый Аккаунт</p>
+            <p>Email: Test@test.com</p>
+            <p>Пароль: Test</p>
+          </div>
+          <div className="mt-4 flex gap-2">
             <AuthSocialButton icon={BsGithub} onClick={() => socialAction("github")} />
             <AuthSocialButton icon={BsGoogle} onClick={() => socialAction("google")} />
           </div>
         </div>
         <div className="flex gap-2 justify-center text-sm mt-6 px-2 text-gray-500">
-          <div>{variant === "LOGIN" ? "Впервые на NextChat?" : "Уже есть аккаунт?"}</div>
+          <div>{variant === "LOGIN" ? "Впервые на Morphine?" : "Уже есть аккаунт?"}</div>
           <div className="underline cursor-pointer" onClick={toogleVariant}>
             {variant === "LOGIN" ? "Создать аккаунт" : "Войти"}
           </div>

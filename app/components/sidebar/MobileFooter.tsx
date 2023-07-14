@@ -9,7 +9,7 @@ const MobileFooter = () => {
   const { isOpen } = useConversation();
   if (isOpen) return null;
   return (
-    <div className="fixed justify-between w-full bottom-0 z-40 flex items-center bg-white border-t-[1px] lg:hidden">
+    <div className="fixed justify-between w-full bottom-0 z-40 flex items-center bg-black border-t-[1px] lg:hidden border-gray-900">
       {routes.map((route) => (
         <MobileItem
           key={route.href}

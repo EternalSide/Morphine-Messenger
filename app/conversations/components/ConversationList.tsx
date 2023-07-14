@@ -5,7 +5,7 @@ import GroupChatModal from "./GroupChatModal";
 import useConversation from "@/app/hooks/useConversation";
 import { pusherClient } from "@/app/libs/pusher";
 import { FullConversationType } from "@/app/types";
-import { Conversation, User } from "@prisma/client";
+import { User } from "@prisma/client";
 import clsx from "clsx";
 import { find } from "lodash";
 import { useSession } from "next-auth/react";
@@ -79,20 +79,21 @@ const ConversationList: React.FC<ConversationListProps> = ({ initialItems, users
       <GroupChatModal users={users} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       <aside
         className={clsx(
-          `fixed inset-y-0 pb-20 lg:pb-0 lg:left-20 lg:w-80 lg:block overflow-y-auto border-r borger-gray-200`,
+          `border-neutral-800 fixed inset-y-0 pb-20 lg:pb-0 lg:left-20 lg:w-80 lg:block overflow-y-auto border-r border-l `,
           isOpen ? "hidden" : "block w-full left-0"
         )}
       >
-        <div className="px-5 ">
-          <div className="flex justify-between mb-4 pt-4">
-            <div className="text-xl font-bold text-neutral-800">Сообщения</div>
+        <div className="">
+          <div className="flex justify-between mb-4 pt-4 px-5 ">
+            <div className="text-xl font-bold text-white">Сообщения</div>
             <div
               onClick={() => setIsModalOpen(true)}
-              className="rounded-full p-2 bg-gray-100 text-gray-600 cursor-pointer hover:opacity-75 transition"
+              className="rounded-full p-2  cursor-pointer hover:bg-gray-800 transition text-gray-300 "
             >
               <MdOutlineGroupAdd size={20} />
             </div>
           </div>
+          {items.length <= 0 && <h3 className="font-bold text-center text-gray-400">Сообщения отсутствуют.</h3>}
 
           {items.map((item) => {
             return <ConversationBox key={item.id} data={item} selected={conversationId === item.id} />;

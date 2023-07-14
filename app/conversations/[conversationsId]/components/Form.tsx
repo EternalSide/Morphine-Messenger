@@ -38,13 +38,13 @@ const Form = () => {
   };
 
   return (
-    <div className="py-4 px-4 bg-white border-t flex items-center gap-2 lg:gap-4 w-full">
+    <div className="py-4 px-4 bg-black  border-t border-gray-900 flex items-center gap-2 lg:gap-4 w-full">
       <CldUploadButton onUpload={handleUpload} uploadPreset="tbm84y0e" options={{ maxFiles: 1 }}>
-        <HiPhoto size={30} className="text-sky-500" />
+        <HiPhoto size={30} className="text-blue-500" />
       </CldUploadButton>
       <form className="flex items-center gap-2 lg:gap-4 w-full" onSubmit={handleSubmit(onSubmit)}>
         <MessageInput id="message" register={register} errors={errors} required placeholder="Отправьте сообщение" />
-        <button className="rounded-full p-2 bg-sky-500 cursor-pointer hover:bg-sky-600" type="submit">
+        <button className="rounded-full p-2 bg-blue-500 hover:bg-blue-400 cursor-pointer" type="submit">
           <HiPaperAirplane size={18} className="text-white" />
         </button>
       </form>

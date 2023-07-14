@@ -37,6 +37,7 @@ const Input: React.FC<InputProps> = ({ label, id, register, required, errors, ty
           {...register(id, { required })}
           className={clsx(
             `
+  
             form-input
             block 
             w-full 
@@ -53,7 +54,10 @@ const Input: React.FC<InputProps> = ({ label, id, register, required, errors, ty
             focus:ring-inset 
             focus:ring-sky-600 
             sm:text-sm 
-            sm:leading-6`,
+            sm:leading-6
+       
+            `,
+
             errors[id] && "focus:ring-rose-500",
             disabled && "opacity-50 cursor-default"
           )}

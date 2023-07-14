@@ -4,12 +4,12 @@ import prisma from "@/app/libs/prismadb";
 const getCurrentUser = async () => {
   try {
     const session = await getSession();
-    if (!session?.user?.email) {
+    if (!session?.currentUser?.email) {
       return null;
     }
     const currentUser = await prisma.user.findUnique({
       where: {
-        email: session.user.email as string,
+        email: session.currentUser.email as string,
       },
     });
     if (!currentUser) {

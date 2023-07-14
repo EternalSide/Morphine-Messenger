@@ -20,9 +20,9 @@ const DesktopItem: React.FC<DesktopItemProps> = ({ label, icon: Icon, href, onCl
       <Link
         href={href}
         className={clsx(
-          `group flex gap-x-3 rounded-md p-3 text-sm leading-6 font-semibold  hover:text-black hover:bg-gray-100`,
-          active && "text-black bg-gray-100",
-          !active && "text-gray-500"
+          `group flex gap-x-3 rounded-md p-3 text-sm leading-6 font-semibold transition`,
+          active && "text-black bg-white",
+          !active && " hover:text-white hover:bg-gray-800"
         )}
       >
         <Icon className="h-6 w-6 shrink-0 " />

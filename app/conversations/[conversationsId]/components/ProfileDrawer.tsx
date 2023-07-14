@@ -8,6 +8,7 @@ import useOther from "@/app/hooks/useOther";
 import { Dialog, Transition } from "@headlessui/react";
 import { Conversation, User } from "@prisma/client";
 import { format } from "date-fns";
+import { ru } from "date-fns/locale";
 import { Fragment, useMemo, useState } from "react";
 import { IoClose, IoTrash } from "react-icons/io5";
 
@@ -22,14 +23,14 @@ interface ProfileDrawerProps {
 const ProfileDrawer: React.FC<ProfileDrawerProps> = ({ isOpen, onClose, data }) => {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const otherUser = useOther(data);
-
+  console.log(otherUser);
   const joinedDate = useMemo(() => {
-    return format(new Date(otherUser.createdAt), "PP");
-  }, [otherUser.createdAt]);
+    return format(new Date(otherUser.createdAt), "PP", { locale: ru });
+  }, [otherUser?.createdAt]);
 
   const title = useMemo(() => {
     return data.name || otherUser.name;
-  }, [data.name, otherUser.name]);
+  }, [data.name, otherUser?.name]);
 
   const { members } = useActiveList();
   const isActive = members.indexOf(otherUser?.email!) !== -1;
@@ -59,8 +60,8 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({ isOpen, onClose, data }) 
             <div className="fixed inset-0 bg-black bg-opacity-40" />
           </Transition.Child>
 
-          <div className="fixed inset-0 overflow-hidden">
-            <div className="absolute inset-0 overflow-hidden">
+          <div className="fixed inset-0 overflow-hidden ">
+            <div className="absolute inset-0 overflow-hidden ">
               <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
                 <Transition.Child
                   as={Fragment}
@@ -72,120 +73,79 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({ isOpen, onClose, data }) 
                   leaveTo="translate-x-full"
                 >
                   <Dialog.Panel className="pointer-events-auto w-screen max-w-md">
-                    <div className="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl">
+                    <div className="flex h-full flex-col overflow-y-scroll bg-black py-6 shadow-xl border-l border-neutral-900">
                       <div className="px-4 sm:px-6">
                         <div className="flex items-start justify-end">
                           <div className="ml-3 flex h-7 items-center">
                             <button
                               type="button"
-                              className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                              className="rounded-md bg-black text-white hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                               onClick={onClose}
                             >
-                              <span className="sr-only">Close panel</span>
+                              <span className="sr-only">Закрыть</span>
                               <IoClose size={24} aria-hidden="true" />
                             </button>
                           </div>
                         </div>
                       </div>
-                      <div className="relative mt-6 flex-1 px-4 sm:px-6">
-                        <div className="flex flex-col items-center">
-                          <div className="mb-2">
-                            {data.isGroup ? <AvatarGroup users={data.users} /> : <Avatar user={otherUser} />}
+                      <div className="relative mt-6 flex-1 ">
+                        <div className="flex flex-col items-center mb-2">
+                          {data.isGroup ? <AvatarGroup users={data.users} /> : <Avatar user={otherUser} />}
+                          <p>{title}</p>
+                          <div className="text-sm text-gray-500 mb-3 border-b-[1px] border-gray-800 w-full text-center pb-3">
+                            {statusText}
                           </div>
-                          <div>{title}</div>
-                          <div className="text-sm text-gray-500">{statusText}</div>
-                          <div className="flex gap-10 my-8">
-                            <div
-                              onClick={() => setConfirmOpen(true)}
-                              className="flex flex-col gap-3 items-center cursor-pointer hover:opacity-75"
-                            >
-                              <div className="w-10 h-10 bg-neutral-100 rounded-full flex items-center justify-center">
-                                <IoTrash size={20} />
-                              </div>
-                              <div className="text-sm font-light text-neutral-600">Delete</div>
-                            </div>
-                          </div>
-                          <div className="w-full pb-5 pt-5 sm:px-0 sm:pt-0">
-                            <dl className="space-y-8 px-4 sm:space-y-6 sm:px-6">
+
+                          <div className="w-full pb-5  sm:px-0 sm:pt-0">
+                            <div>
                               {data.isGroup && (
                                 <div>
                                   <dt
                                     className="
                                   text-sm 
                                   font-medium 
-                                  text-gray-500 
+                                  text-white
                                   sm:w-40 
                                   sm:flex-shrink-0
                                 "
                                   >
-                                    Emails
+                                    Участники
                                   </dt>
-                                  <dd
+                                  <div
                                     className="
                                   mt-1 
                                   text-sm 
-                                  text-gray-900 
+                                  text-white
                                   sm:col-span-2
                                 "
                                   >
-                                    {data.users.map((user) => user.email).join(", ")}
-                                  </dd>
+                                    {data.users.map((user) => user.name).join(", ")}
+                                  </div>
                                 </div>
                               )}
-                              {!data.isGroup && (
-                                <div>
-                                  <dt
-                                    className="
-                                  text-sm 
-                                  font-medium 
-                                  text-gray-500 
-                                  sm:w-40 
-                                  sm:flex-shrink-0
-                                "
-                                  >
-                                    Email
-                                  </dt>
-                                  <dd
-                                    className="
-                                  mt-1 
-                                  text-sm 
-                                  text-gray-900 
-                                  sm:col-span-2
-                                "
-                                  >
-                                    {otherUser.email}
-                                  </dd>
-                                </div>
-                              )}
+
                               {!data.isGroup && (
                                 <>
-                                  <hr />
-                                  <div>
-                                    <dt
-                                      className="
-                                    text-sm 
-                                    font-medium 
-                                    text-gray-500 
-                                    sm:w-40 
-                                    sm:flex-shrink-0
+                                  <div
+                                    className="flex flex-col items-center justify-center gap-1 text-sm font-medium text-white sm:w-full  border-b-[1px] border-gray-800 pb-3
                                   "
-                                    >
-                                      Joined
-                                    </dt>
-                                    <dd
-                                      className="
-                                    mt-1 
-                                    text-sm 
-                                    text-gray-900 
-                                    sm:col-span-2
-                                  "
-                                    >
-                                      <time dateTime={joinedDate}>{joinedDate}</time>
-                                    </dd>
+                                  >
+                                    <p> Регистрация</p>
+                                    <p>{joinedDate}</p>
                                   </div>
                                 </>
                               )}
-                            </dl>
+
+                              <div
+                                onClick={() => setConfirmOpen(true)}
+                                className="flex flex-col justify-center gap-1  mt-3 items-center sm:mt-3"
+                              >
+                                <div className="w-10 h-10 bg-gray-900 rounded-full flex items-center justify-center">
+                                  <IoTrash size={20} className="hover:opacity-75 cursor-pointer" />
+                                </div>
+                                <p className="text-sm font-light text-white">Удалить все сообщения</p>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>

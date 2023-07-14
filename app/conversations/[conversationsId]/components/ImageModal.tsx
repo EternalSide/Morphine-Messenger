@@ -14,7 +14,7 @@ const ImageModal: React.FC<ImageModalProps> = ({ isOpen, onClose, src }) => {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="w-80 h-96">
+      <div className="max-w-[75%] h-96 max-h-[75%] ">
         <Image alt="Фото" className="" fill src={src} />
       </div>
     </Modal>

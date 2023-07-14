@@ -17,6 +17,7 @@ interface ConversationBoxProps {
 }
 const ConversationBox: React.FC<ConversationBoxProps> = ({ data, selected }) => {
   const otherUser = useOtherUser(data);
+
   const session = useSession();
   const router = useRouter();
   const handleClick = useCallback(() => {
@@ -43,38 +44,33 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({ data, selected }) => 
   }, [userEmail, lastMessage]);
 
   const lastMessageText = useMemo(() => {
-    if (lastMessage?.image) return "Sent an image";
+    if (lastMessage?.image) return "Отправил Изображение";
 
     if (lastMessage?.body) return lastMessage.body;
-    return "Начал Диалог";
+    return "Диалог создан, отправьте свое первое сообщение";
   }, [lastMessage]);
   return (
     <div
       onClick={handleClick}
       className={clsx(
-        `p-3 w-full relative
-    flex items-center space-x-3 hover:bg-neutral-100 rounded-lg transition cursor-pointer`,
-        selected ? "bg-neutral-100" : "bg-white"
+        ` border-b-[1px] border-neutral-800 pt-5 pb-5 pl-3 pr-3 md:p-3 w-full relative
+    flex items-center space-x-3 hover:bg-gray-900 transition cursor-pointer`,
+        selected ? "bg-neutral-900" : "",
+        hasSeen ? "" : "bg-gray-900"
       )}
     >
       {data.isGroup ? <AvatarGroup users={data.users} /> : <Avatar user={otherUser} />}
-
-      <div className="min-w-0 flex-1">
+      <div className="min-w-0 flex-1  ">
         <div className="focus:outline-none">
           <div className="flex justify-between items-center mb-1">
-            <p className="text-md font-medium text-gray-900">{data.name || otherUser.name}</p>
+            <p className="text-md font-medium text-white">{data.name || otherUser?.name}</p>
             {lastMessage?.createdAt && (
-              <p
-                className="
-            text-xs text-gray-400 font-light            "
-              >
+              <p className={clsx(`text-xs text-gray-500 font-light`, hasSeen ? "" : "font-bold")}>
                 {format(new Date(lastMessage.createdAt), "p")}
               </p>
             )}
           </div>
-          <p className={clsx(`truncate text-sm`, hasSeen ? "text-gray-500" : "text-black font-medium")}>
-            {lastMessageText}
-          </p>
+          <p className="truncate text-sm text-gray-500">{lastMessageText}</p>
         </div>
       </div>
     </div>

@@ -28,27 +28,24 @@ const Header: React.FC<HeaderProps> = ({ conversation }) => {
       return `${conversation.users.length} members`;
     }
 
-    return isActive ? "В сети" : "Оффлайн";
+    return isActive ? "В сети" : "Заходил недавно";
   }, [conversation]);
   return (
     <>
       <ProfileDrawer data={conversation} isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
-      <div className="bg-white w-full flex border-b-[1px] sm:px-4 py-3 px-4 lg:px-6 justify-between items-center shadow-sm">
+      <div className="bg-black w-full flex border-b-[1px] border-neutral-800 sm:px-4 py-3 px-4 lg:px-6 justify-between items-center ">
         <div className="flex gap-3 items-center">
-          <Link
-            className="lg:hidden block text-sky-500 hover:text-sky-600 transition cursor-pointer"
-            href="/conversations"
-          >
+          <Link className="lg:hidden block text-blue-500 hover:text-blue-400 transition cursor-pointer" href="/conversations">
             <HiChevronLeft size={32} />
           </Link>
           {conversation.isGroup ? <AvatarGroup users={conversation.users} /> : <Avatar user={otherUser} />}
-          <div className="flex flex-col">
-            <div>{conversation.name || otherUser.name}</div>
+          <div className="flex flex-col text-white">
+            <div>{conversation.name || otherUser?.name}</div>
             <div className="text-sm font-light text-neutral-500">{statusText}</div>
           </div>
         </div>
         <HiEllipsisHorizontal
-          className="text-sky-500 cursor-pointer hover:text-sky-600"
+          className="text-blue-500 hover:text-blue-400 cursor-pointer"
           size={32}
           onClick={() => setDrawerOpen(true)}
         />
