@@ -40,7 +40,7 @@ const Form = () => {
   return (
     <div className="py-4 px-4 bg-black  border-t border-gray-900 flex items-center gap-2 lg:gap-4 w-full">
       <CldUploadButton onUpload={handleUpload} uploadPreset="tbm84y0e" options={{ maxFiles: 1 }}>
-        <HiPhoto size={30} className="text-blue-500" />
+        <HiPhoto size={30} className="text-white" />
       </CldUploadButton>
       <form className="flex items-center gap-2 lg:gap-4 w-full" onSubmit={handleSubmit(onSubmit)}>
         <MessageInput id="message" register={register} errors={errors} required placeholder="Отправьте сообщение" />

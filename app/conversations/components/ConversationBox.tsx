@@ -55,8 +55,8 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({ data, selected }) => 
       className={clsx(
         ` border-b-[1px] border-neutral-800 pt-5 pb-5 pl-3 pr-3 md:p-3 w-full relative
     flex items-center space-x-3 hover:bg-gray-900 transition cursor-pointer`,
-        selected ? "bg-neutral-900" : "",
-        hasSeen ? "" : "bg-gray-900"
+        selected ? "bg-neutral-800" : "",
+        hasSeen ? "" : "bg-neutral-900"
       )}
     >
       {data.isGroup ? <AvatarGroup users={data.users} /> : <Avatar user={otherUser} />}
@@ -66,7 +66,7 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({ data, selected }) => 
             <p className="text-md font-medium text-white">{data.name || otherUser?.name}</p>
             {lastMessage?.createdAt && (
               <p className={clsx(`text-xs text-gray-500 font-light`, hasSeen ? "" : "font-bold")}>
-                {format(new Date(lastMessage.createdAt), "p")}
+                {format(new Date(lastMessage.createdAt), "HH:mm")}
               </p>
             )}
           </div>

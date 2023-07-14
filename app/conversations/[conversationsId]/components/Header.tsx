@@ -35,7 +35,7 @@ const Header: React.FC<HeaderProps> = ({ conversation }) => {
       <ProfileDrawer data={conversation} isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
       <div className="bg-black w-full flex border-b-[1px] border-neutral-800 sm:px-4 py-3 px-4 lg:px-6 justify-between items-center ">
         <div className="flex gap-3 items-center">
-          <Link className="lg:hidden block text-blue-500 hover:text-blue-400 transition cursor-pointer" href="/conversations">
+          <Link className="lg:hidden block text-white hover:opacity-90 transition cursor-pointer" href="/conversations">
             <HiChevronLeft size={32} />
           </Link>
           {conversation.isGroup ? <AvatarGroup users={conversation.users} /> : <Avatar user={otherUser} />}
@@ -45,7 +45,7 @@ const Header: React.FC<HeaderProps> = ({ conversation }) => {
           </div>
         </div>
         <HiEllipsisHorizontal
-          className="text-blue-500 hover:text-blue-400 cursor-pointer"
+          className="text-white hover:opacity-90 cursor-pointer"
           size={32}
           onClick={() => setDrawerOpen(true)}
         />

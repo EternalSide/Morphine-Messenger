@@ -96,21 +96,26 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({ isOpen, onClose, data }) 
                             {statusText}
                           </div>
 
-                          <div className="w-full pb-5  sm:px-0 sm:pt-0">
+                          <div className="w-full pb-5 sm:px-0 sm:pt-0">
                             <div>
                               {data.isGroup && (
-                                <div>
-                                  <dt
+                                <div
+                                  className="flex
+                                  flex-col text-center
+                                items-center justify-center"
+                                >
+                                  <div
                                     className="
+                                    
                                   text-sm 
                                   font-medium 
                                   text-white
                                   sm:w-40 
-                                  sm:flex-shrink-0
+                                 
                                 "
                                   >
                                     Участники
-                                  </dt>
+                                  </div>
                                   <div
                                     className="
                                   mt-1 

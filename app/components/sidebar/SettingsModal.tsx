@@ -66,10 +66,10 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, currentU
                 <div className="mt-2 flex items-center gap-x-3">
                   <Image
                     src={image || currentUser?.image || "/images/placeholder.jpg"}
-                    width={48}
-                    height={48}
+                    width={50}
+                    height={320}
                     alt="Фото в профиле"
-                    className="rounded-full"
+                    className="rounded-full object-cover"
                   />
                   <CldUploadButton uploadPreset="tbm84y0e" onUpload={handleUpload} options={{ maxFiles: 1 }}>
                     <Button danger type="button" disabled={isLoading}>

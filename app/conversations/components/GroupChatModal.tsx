@@ -50,9 +50,9 @@ const GroupChatModal: React.FC<GroupChatModalProps> = ({ isOpen, onClose, users 
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="space-y-12">
           <div className="border-b border-gray-900/10 pb-12">
-            <h2 className="text-base font-semibold leading-7 text-gray-900">Создать групповой чат</h2>
+            <h2 className="text-base font-semibold leading-7 text-white">Создать групповой чат</h2>
 
-            <p className="mt-1 text-sm leading-6 text-gray-600"> Создайте чат с 3 или больше пользователями.</p>
+            <p className="mt-1 text-sm leading-6 text-gray-400"> Создайте чат с 3 или больше пользователями.</p>
 
             <div className="mt-10 flex flex-col gap-y-8">
               <Input register={register} label="Название Чата" id="name" disabled={isLoading} errors={errors} />

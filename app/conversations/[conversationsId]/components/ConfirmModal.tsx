@@ -34,7 +34,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({ isOpen, onClose }) => {
   }, [conversationId, router, onClose]);
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="sm:flex sm:items-start ">
+      <div className="sm:flex sm:items-start pt-6 sm:pt-0">
         <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
           <FiAlertTriangle className="h-6 w-6 text-red-600" />
         </div>
@@ -43,14 +43,12 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({ isOpen, onClose }) => {
             Удалить диалог
           </Dialog.Title>
           <div className="mt-2 ">
-            <p className="text-sm text-gray-500">
-              Вы уверены, что хотите удалить все сообщения в данном диалоге?
-            </p>
+            <p className="text-sm text-gray-500">Вы уверены, что хотите удалить все сообщения?</p>
           </div>
         </div>
       </div>
 
-      <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+      <div className="flex items-center justify-center sm:justify-end gap-x-3 mt-5 sm:mt-4">
         <Button disabled={isLoading} danger onClick={onDelete}>
           Удалить
         </Button>
