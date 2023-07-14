@@ -4,14 +4,12 @@ import AuthSocialButton from "../AuthSocialButton";
 import Button from "@/app/components/Button";
 import Input from "@/app/components/inputs/Input";
 import axios from "axios";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import { useState, useCallback } from "react";
 import { FieldValues, useForm, SubmitHandler } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { BsGithub } from "react-icons/bs";
-import { BsGoogle } from "react-icons/bs";
+import { BsGithub, BsGoogle } from "react-icons/bs";
 
 type Variant = "LOGIN" | "REGISTER";
 
@@ -85,7 +83,7 @@ const AuthForm = () => {
   };
 
   return (
-    <div className="sm:mx-auto pl-12 pr-12   sm:w-full sm:p-0 sm:max-w-md ">
+    <div className="sm:mx-auto pl-6 pr-6 sm:w-full sm:p-0 sm:max-w-md">
       <div className="bg-white px-4 py-8 shadow rounded-lg sm:rounded-lg sm:px-10">
         <form className="" onSubmit={handleSubmit(onSubmit)}>
           {variant === "REGISTER" && (
