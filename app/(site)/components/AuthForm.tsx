@@ -38,7 +38,7 @@ const AuthForm = () => {
     } else {
       setVariant("LOGIN");
     }
-  }, [variant]);
+  }, [variant, reset]);
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
@@ -61,8 +61,8 @@ const AuthForm = () => {
             toast.error("Данные не совпадают.");
           }
           if (callback?.ok && !callback?.error) {
-            toast.success("Вход выполнен!");
             router.push("/users");
+            toast.success("Вход выполнен!");
           }
         })
         .finally(() => setIsLoading(false));

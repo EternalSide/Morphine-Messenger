@@ -29,10 +29,13 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, currentU
   } = useForm<FieldValues>({
     defaultValues: {
       name: currentUser?.name,
+      bio: currentUser?.bio,
       image: currentUser?.image,
+      userName: currentUser?.userName,
+      banner: currentUser?.banner,
     },
   });
-
+  const banner = watch("banner");
   const image = watch("image");
 
   const handleUpload = (result: any) => {
@@ -40,11 +43,25 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, currentU
       shouldValidate: true,
     });
   };
+  const handleUploadBanner = (result: any) => {
+    setValue("banner", result?.info?.secure_url, {
+      shouldValidate: true,
+    });
+  };
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    if (
+      data.banner === currentUser?.banner &&
+      data.bio === currentUser?.bio &&
+      data.image === currentUser?.image &&
+      data.userName === currentUser?.userName &&
+      data.name === currentUser?.name
+    )
+      return onClose();
     setIsLoading(true);
     axios
       .post(`/api/settings`, data)
       .then(() => {
+        toast.success("Обновлено");
         router.refresh();
         onClose();
       })
@@ -55,32 +72,50 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, currentU
     <Modal isOpen={isOpen} onClose={onClose}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="space-y-12">
-          <div className="border-b border-gray-900/10 pb-12">
-            <h2 className="text-base font-semibold leading-7 text-white">Мой Профиль</h2>
-            <p className="mt-1 text-sm leading-6 text-gray-600">Редактировать данные</p>
+          <div className="border-b border-gray-900/10 pb-12 ">
+            <h2 className="text-base font-semibold leading-7 text-white">Редактировать данные</h2>
 
             <div className="mt-10 flex flex-col gap-y-8 ">
-              <Input disabled={isLoading} label="Имя" id="name" errors={errors} required register={register} />
+              <Input disabled={isLoading} label="Имя" id="name" errors={errors} required register={register} white />
+              <Input disabled={isLoading} label="Информация" id="bio" errors={errors} required register={register} white />
+              <Input disabled={isLoading} label="Никнейм" id="userName" errors={errors} required register={register} white />
               <div>
                 <label className="block text-sm font-medium leading-6 text-white">Фото</label>
-                <div className="mt-2 flex items-center gap-x-3">
-                  <Image
-                    src={image || currentUser?.image || "/images/placeholder.jpg"}
-                    width={50}
-                    height={320}
-                    alt="Фото в профиле"
-                    className="rounded-full object-cover"
-                  />
-                  <CldUploadButton uploadPreset="tbm84y0e" onUpload={handleUpload} options={{ maxFiles: 1 }}>
-                    <Button danger type="button" disabled={isLoading}>
-                      Загрузить
-                    </Button>
-                  </CldUploadButton>
+                <div className="flex flex-col">
+                  <div className="mt-2 flex items-center gap-x-3">
+                    <Image
+                      src={image || currentUser?.image || "/images/placeholder.jpg"}
+                      width={100}
+                      height={20}
+                      alt="Фото в профиле"
+                      className="object-cover"
+                    />
+                    <CldUploadButton uploadPreset="tbm84y0e" onUpload={handleUpload} options={{ maxFiles: 1 }}>
+                      <Button settings type="button" disabled={isLoading}>
+                        Загрузить
+                      </Button>
+                    </CldUploadButton>
+                  </div>
+                  <label className="block text-sm font-medium leading-6 text-white mt-6">Баннер</label>
+                  <div className="mt-2 flex items-center  gap-x-3">
+                    <img
+                      src={banner || currentUser?.banner || "/images/placeholder.jpg"}
+                      height={20}
+                      width={100}
+                      alt="Фото в профиле"
+                      className=" object-cover"
+                    />
+                    <CldUploadButton uploadPreset="tbm84y0e" onUpload={handleUploadBanner} options={{ maxFiles: 1 }}>
+                      <Button settings type="button" disabled={isLoading}>
+                        Загрузить
+                      </Button>
+                    </CldUploadButton>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="mt-6 flex items-center justify-end gap-x-6">
+          <div className="mt-6 flex items-center justify-end gap-x-3">
             <Button secondary onClick={onClose} disabled={isLoading}>
               Отменить
             </Button>

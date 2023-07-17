@@ -15,12 +15,12 @@ import { useState, useMemo, useEffect } from "react";
 import { MdOutlineGroupAdd } from "react-icons/md";
 
 interface ConversationListProps {
-  initialItems: FullConversationType[];
+  conversations: FullConversationType[];
   users: User[];
 }
 
-const ConversationList: React.FC<ConversationListProps> = ({ initialItems, users }) => {
-  const [items, setItems] = useState(initialItems);
+const ConversationList: React.FC<ConversationListProps> = ({ conversations, users }) => {
+  const [items, setItems] = useState(conversations);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
   let { conversationId, isOpen } = useConversation();

@@ -7,7 +7,8 @@ import useActiveList from "@/app/hooks/useActiveList";
 import useOtherUser from "@/app/hooks/useOther";
 import { Conversation, User } from "@prisma/client";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useCallback, useMemo, useState } from "react";
 import { HiChevronLeft, HiEllipsisHorizontal } from "react-icons/hi2";
 
 interface HeaderProps {
@@ -19,7 +20,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ conversation }) => {
   const otherUser = useOtherUser(conversation);
   const [drawerOpen, setDrawerOpen] = useState(false);
-
+  const router = useRouter();
   const { members } = useActiveList();
   const isActive = members.indexOf(otherUser?.email!) !== -1;
 
@@ -30,6 +31,11 @@ const Header: React.FC<HeaderProps> = ({ conversation }) => {
 
     return isActive ? "В сети" : "Заходил недавно";
   }, [conversation]);
+
+  const goToOtherUserProfile = useCallback(() => {
+    router.push(`/${otherUser.id}`);
+  }, [router, conversation]);
+
   return (
     <>
       <ProfileDrawer data={conversation} isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
@@ -38,7 +44,11 @@ const Header: React.FC<HeaderProps> = ({ conversation }) => {
           <Link className="lg:hidden block text-white hover:opacity-90 transition cursor-pointer" href="/conversations">
             <HiChevronLeft size={32} />
           </Link>
-          {conversation.isGroup ? <AvatarGroup users={conversation.users} /> : <Avatar user={otherUser} />}
+          {conversation.isGroup ? (
+            <AvatarGroup users={conversation.users} />
+          ) : (
+            <Avatar user={otherUser} onClick={goToOtherUserProfile} />
+          )}
           <div className="flex flex-col text-white">
             <div>{conversation.name || otherUser?.name}</div>
             <div className="text-sm font-light text-neutral-500">{statusText}</div>

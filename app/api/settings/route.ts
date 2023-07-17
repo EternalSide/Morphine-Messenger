@@ -6,7 +6,7 @@ export async function POST(request: Request) {
   try {
     const currentUser = await getCurrentUser();
     const body = await request.json();
-    const { name, image } = body;
+    const { name, image, bio, userName, banner } = body;
 
     if (!currentUser) return new NextResponse("Не авторизованы", { status: 500 });
 
@@ -15,8 +15,11 @@ export async function POST(request: Request) {
         id: currentUser.id,
       },
       data: {
-        image: image,
-        name: name,
+        image,
+        name,
+        bio,
+        userName,
+        banner,
       },
     });
     return NextResponse.json(updatedUser);

@@ -6,11 +6,11 @@ export default async function UsersLayout({ children }: { children: React.ReactN
   const users = await getUsers();
 
   return (
-    <Sidebar>
-      <div className="h-full">
-        <UserList items={users} />
+    <div className="h-full">
+      <Sidebar>
+        <UserList users={users} />
         {children}
-      </div>
-    </Sidebar>
+      </Sidebar>
+    </div>
   );
 }

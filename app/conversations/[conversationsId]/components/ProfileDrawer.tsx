@@ -9,6 +9,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Conversation, User } from "@prisma/client";
 import { format } from "date-fns";
 import { ru } from "date-fns/locale";
+import Link from "next/link";
 import { Fragment, useMemo, useState } from "react";
 import { IoClose, IoTrash } from "react-icons/io5";
 
@@ -23,7 +24,7 @@ interface ProfileDrawerProps {
 const ProfileDrawer: React.FC<ProfileDrawerProps> = ({ isOpen, onClose, data }) => {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const otherUser = useOther(data);
-  console.log(otherUser);
+  console.log(data.users);
   const joinedDate = useMemo(() => {
     return format(new Date(otherUser.createdAt), "PP", { locale: ru });
   }, [otherUser?.createdAt]);
@@ -124,7 +125,12 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({ isOpen, onClose, data }) 
                                   sm:col-span-2
                                 "
                                   >
-                                    {data.users.map((user) => user.name).join(", ")}
+                                    {data.users.map((user) => (
+                                      <Link className="text-underline" href={`/${user?.id}`}>
+                                        {" "}
+                                        {user?.name}{" "}
+                                      </Link>
+                                    ))}
                                   </div>
                                 </div>
                               )}

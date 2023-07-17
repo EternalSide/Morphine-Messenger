@@ -1,9 +1,12 @@
 import getSession from "./getSession";
 import prisma from "@/app/libs/prismadb";
 
+// Доп проверка на юзера,
+// возвращает все данные пользователя
 const getCurrentUser = async () => {
   try {
     const session = await getSession();
+
     if (!session?.currentUser?.email) {
       return null;
     }

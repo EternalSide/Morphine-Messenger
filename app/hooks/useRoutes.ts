@@ -7,6 +7,7 @@ import { HiArrowLeftOnRectangle, HiUsers } from "react-icons/hi2";
 
 const useRoutes = () => {
   var pathname = usePathname();
+
   const { conversationId } = useConversation();
   const routes = useMemo(
     () => [

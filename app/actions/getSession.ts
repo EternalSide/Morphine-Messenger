@@ -1,11 +1,15 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import prisma from "@/app/libs/prismadb";
 import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 
+// getServerSession возращает только имя и почту
+// А нам нужны все данные пользователя
+// поэтому найдем его в базе
 const serverAuth = async () => {
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) {
-    throw new Error("Not signed in");
+    redirect("/");
   }
 
   const currentUser = await prisma.user.findUnique({
@@ -15,7 +19,7 @@ const serverAuth = async () => {
   });
 
   if (!currentUser) {
-    // throw new Error("Not signed in");
+    throw new Error("Not signed in");
   }
 
   return { currentUser };

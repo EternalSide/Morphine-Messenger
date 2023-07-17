@@ -1,6 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
-
+// Listane
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,9 +13,13 @@ datasource db {
 model User {
   id              String @id @default(auto()) @map("_id") @db.ObjectId
   name            String?
+  userName        String?  
   email           String?   @unique
+  bio String?
   emailVerified   DateTime?
   image           String?
+  banner String?
+  userImages String[]
   hashedPassword  String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
