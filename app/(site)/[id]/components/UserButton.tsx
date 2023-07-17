@@ -30,10 +30,7 @@ const UserButton: React.FC<UserButtonProps> = ({ title, id, userId, main }) => {
   }
 
   return (
-    <button
-      onClick={() => router.push(`/${userId}/${id}`)}
-      className="flex flex-col items-center pt-3 w-32 h-12 hover:bg-neutral-800 cursor-pointer font-semibold text-neutral-400"
-    >
+    <button className="flex flex-col items-center pt-3 w-32 h-12 hover:bg-neutral-800 cursor-pointer font-semibold text-neutral-400">
       {title}
       {active && <div className="border-b-[4px] border-sky-500 mt-2 w-20 "></div>}
     </button>
