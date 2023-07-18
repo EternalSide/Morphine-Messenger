@@ -24,7 +24,7 @@ interface ProfileDrawerProps {
 const ProfileDrawer: React.FC<ProfileDrawerProps> = ({ isOpen, onClose, data }) => {
   const [confirmOpen, setConfirmOpen] = useState(false);
   const otherUser = useOther(data);
-  console.log(data.users);
+
   const joinedDate = useMemo(() => {
     return format(new Date(otherUser.createdAt), "PP", { locale: ru });
   }, [otherUser?.createdAt]);

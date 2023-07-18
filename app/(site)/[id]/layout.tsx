@@ -8,7 +8,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const conversations = await getConversations();
   return (
     <Sidebar>
-      <ConversationList users={users} conversations={conversations} />
+      <ConversationList users={users} conversations={conversations} profile />
       {children}
     </Sidebar>
   );

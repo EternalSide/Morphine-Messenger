@@ -1,5 +1,4 @@
 import ActiveStatus from "./components/ActiveStatus";
-import Sidebar from "./components/sidebar/Sidebar";
 import AuthContext from "./context/AuthContext";
 import ToasterContext from "./context/ToasterContext";
 import "./globals.css";

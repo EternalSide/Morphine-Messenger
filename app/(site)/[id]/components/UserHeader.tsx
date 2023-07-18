@@ -1,6 +1,7 @@
 "use client";
 
-import UserButton from "./UserButton";
+import UserCategoryButton from "./UserCategoryButton";
+import UserHeaderButton from "./UserHeaderButton";
 import SettingsModal from "@/app/components/sidebar/SettingsModal";
 import { User } from "@prisma/client";
 import axios from "axios";
@@ -34,7 +35,7 @@ const UserHeader: React.FC<UserHeaderProps> = ({ user, isOwnProfile }) => {
       <SettingsModal currentUser={user} isOpen={isOpen} onClose={() => setIsOpen(false)} />
       <div className="p-8 pb-0 relative border-[1px] border-neutral-800 w-full">
         {/* Header */}
-        <div className="flex items-center  justify-between">
+        <div className="flex flex-col lg:flex-row md:flex-row  lg:items-center  justify-between">
           <div className="flex gap-x-6">
             <div className="w-44 ">
               <img
@@ -57,30 +58,20 @@ const UserHeader: React.FC<UserHeaderProps> = ({ user, isOwnProfile }) => {
           </div>
 
           {/* buttons */}
-          <div className="flex flex-col items-center gap-y-2">
+          <div className="flex flex-col  gap-y-2">
             <div className="flex gap-x-4">
               {isOwnProfile ? (
-                <button
-                  onClick={() => setIsOpen(true)}
-                  className="bg-white text-black border-none hover:opacity-90 transition outline-none rounded-md h-[40px] w-44"
-                >
-                  Редактировать
-                </button>
+                <UserHeaderButton title="Редактировать" onClick={() => setIsOpen(true)} />
               ) : (
-                <button
-                  onClick={goToMessages}
-                  className="bg-white text-black hover:opacity-90 transition  border-[1px] outline-none rounded-md h-[40px] w-44"
-                >
-                  Сообщение
-                </button>
+                <UserHeaderButton title="Сообщение" onClick={goToMessages} />
               )}
             </div>
           </div>
         </div>
         <div className="flex mt-8">
-          <UserButton title="Медиа" main id="/" userId={user.id} />
-          <UserButton title="Посты" id="posts" userId={user.id} />
-          <UserButton title="Нравится" id="liked" userId={user.id} />
+          <UserCategoryButton title="Медиа" main id="/" userId={user.id} />
+          <UserCategoryButton title="Посты" id="posts" userId={user.id} />
+          <UserCategoryButton title="Нравится" id="liked" userId={user.id} />
         </div>
       </div>
     </>

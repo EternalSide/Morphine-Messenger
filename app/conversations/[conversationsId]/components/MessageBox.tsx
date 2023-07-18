@@ -7,6 +7,7 @@ import clsx from "clsx";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface MessageBoxProps {
@@ -31,11 +32,11 @@ const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
     isOwn ? "bg-gray-900 text-white" : "bg-gray-900",
     data.image ? "rounded-md p-0" : "rounded-full py-2 px-3"
   );
-
+  const router = useRouter();
   return (
     <div className={container}>
       <div className={avatar}>
-        <Avatar user={data.sender} />
+        <Avatar user={data.sender} onClick={() => router.push(`/${data?.sender?.id}`)} />
       </div>
       <div className={body}>
         <div className="flex items-center gap-1">
@@ -57,8 +58,8 @@ const MessageBox: React.FC<MessageBoxProps> = ({ data, isLast }) => {
             <div>{data.body}</div>
           )}
         </div>
-        {isLast && isOwn && seenList.length > 0 && <div className="text-xs font-light text-gray-500">{`Прочитано ✓`}</div>}
-        {seenList.length < 0 && <div className="text-xs font-light text-gray-500">{`Отправлено`}</div>}
+        {/* {isLast && isOwn && seenList.length > 0 && <div className="text-xs font-light text-gray-500">{`Прочитано ✓`}</div>} */}
+        {/* {seenList.length < 0 && <div className="text-xs font-light text-gray-500">{`Отправлено`}</div>} */}
       </div>
     </div>
   );

@@ -17,8 +17,7 @@ interface InputProps {
 const Input: React.FC<InputProps> = ({ label, id, register, required, errors, type = "text", disabled, white }) => {
   return (
     <div>
-      <label
-        htmlFor={id}
+      <p
         className={clsx(
           `
         block 
@@ -31,7 +30,7 @@ const Input: React.FC<InputProps> = ({ label, id, register, required, errors, ty
         )}
       >
         {label}
-      </label>
+      </p>
       <div className="mt-2">
         <input
           id={id}
@@ -62,7 +61,7 @@ const Input: React.FC<InputProps> = ({ label, id, register, required, errors, ty
             `,
             errors[id] && "focus:ring-rose-500",
             disabled && "opacity-50 cursor-default",
-            white && "bg-black text-white border-b-[1px] border-neutral-800 rounded-none focus:ring-0 "
+            white && "bg-black text-white border-b-[1px] border-gray-700 rounded-none focus:ring-0 "
           )}
         />
       </div>

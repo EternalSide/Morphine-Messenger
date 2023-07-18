@@ -1,10 +1,12 @@
 "use client";
 
+import getCurrentUser from "@/app/actions/getCurrentUser";
 import Button from "@/app/components/Button";
 import Modal from "@/app/components/Modal";
 import useConversation from "@/app/hooks/useConversation";
 import { Dialog } from "@headlessui/react";
 import axios from "axios";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -19,7 +21,8 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({ isOpen, onClose }) => {
   const router = useRouter();
   const { conversationId } = useConversation();
   const [isLoading, setIsLoading] = useState(false);
-
+  const session = useSession();
+  const testAccount = session?.data?.user?.email === "Test@test.com";
   const onDelete = useCallback(() => {
     setIsLoading(true);
     axios
@@ -44,12 +47,13 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({ isOpen, onClose }) => {
           </Dialog.Title>
           <div className="mt-2 ">
             <p className="text-sm text-gray-500">Вы уверены, что хотите удалить все сообщения?</p>
+            {testAccount && <p className="text-sm text-red-500 mt-2 ">*На тестовом аккаунте удаление сообщений невозможно.</p>}
           </div>
         </div>
       </div>
 
       <div className="flex items-center justify-center sm:justify-end gap-x-3 mt-5 sm:mt-4">
-        <Button disabled={isLoading} danger onClick={onDelete}>
+        <Button disabled={isLoading || testAccount} danger onClick={onDelete}>
           Удалить
         </Button>
         <Button disabled={isLoading} secondary onClick={onClose}>

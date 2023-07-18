@@ -1,14 +1,13 @@
-import getCurrentUser from "../actions/getCurrentUser";
 import AuthForm from "./components/AuthForm";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
 export default async function Home() {
-  // Если в системе сразу в диалоги
-  const session = await getServerSession();
-  const user = await getCurrentUser();
+  // Если в системе сразу в профиль
 
-  if (user?.id) redirect(`/${user?.id}`);
+  const user = await getServerSession();
+
+  if (user?.user?.email) redirect(`/conversations`);
 
   return (
     <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8 bg-black">

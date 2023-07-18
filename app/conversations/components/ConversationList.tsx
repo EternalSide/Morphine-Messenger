@@ -17,9 +17,10 @@ import { MdOutlineGroupAdd } from "react-icons/md";
 interface ConversationListProps {
   conversations: FullConversationType[];
   users: User[];
+  profile?: boolean;
 }
 
-const ConversationList: React.FC<ConversationListProps> = ({ conversations, users }) => {
+const ConversationList: React.FC<ConversationListProps> = ({ conversations, users, profile }) => {
   const [items, setItems] = useState(conversations);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
@@ -79,8 +80,9 @@ const ConversationList: React.FC<ConversationListProps> = ({ conversations, user
       <GroupChatModal users={users} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       <aside
         className={clsx(
-          `border-neutral-800 fixed inset-y-0 pb-20 lg:pb-0 lg:left-20 lg:w-80 lg:block overflow-y-auto border-r border-l `,
-          isOpen ? "hidden" : "block w-full left-0"
+          `lg:block border-neutral-800 fixed inset-y-0 pb-20 lg:pb-0 lg:left-20 lg:w-80  overflow-y-auto border-r border-l `,
+          isOpen ? "hidden" : "block w-full left-0",
+          profile ? "hidden" : "lg:block"
         )}
       >
         <div className="">
