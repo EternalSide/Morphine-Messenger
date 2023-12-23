@@ -1,6 +1,6 @@
 # Мессенджер | Next JS, TypeScript, MongoDB
 
-![JTUBE](https://i.ibb.co/gRRndL1/zxc.png)
+![Morphine](https://i.ibb.co/TYB268R/zxc.png)
 
 👨‍💻 Деплой - [morphine-ten.vercel.app](https://morphine-ten.vercel.app/)
 
